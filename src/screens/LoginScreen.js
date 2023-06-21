@@ -3,9 +3,9 @@ import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native';
 
-import Home from '../components/Home';
+import Login from '../components/Login';
 
-const HomeScreen = () => {
+const LoginScreen = () => {
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
@@ -16,7 +16,7 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <Home />
+      <Login />
     </SafeAreaView>
   );
 };
@@ -27,4 +27,4 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
 });
-export default HomeScreen;
+export default LoginScreen;

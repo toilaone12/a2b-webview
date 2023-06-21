@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import styles from './Style';
 
-const HomeRules = () => {
+const LoginRules = () => {
   const data = ['A2B', 'Liên hệ', 'Điều khoản', 'Từ chối trách nhiệm'];
 
   const [hiddenIndexes, setHiddenIndexes] = useState([0]);
@@ -19,4 +19,4 @@ const HomeRules = () => {
   );
 };
 
-export default HomeRules;
+export default LoginRules;

@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import styles from './Style';
 
-const HomeBtn = () => {
+const LoginBtn = () => {
   const btnList = [
     {
       icon: 'google',
@@ -40,4 +40,4 @@ const HomeBtn = () => {
   );
 };
 
-export default HomeBtn;
+export default LoginBtn;

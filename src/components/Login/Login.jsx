@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import ResponsiveImage from 'react-native-responsive-image';
-import HomeBtn from './HomeBtn';
-import HomeRules from './HomeRules';
 
-import styles from './HomeStyle';
+import styles from './LoginStyle';
 import { logo } from '../../assets/images';
+import LoginRules from './LoginRules';
+import LoginBtn from './LoginBtn';
 
-const Home = () => {
+const Login = () => {
   return (
     <View style={[styles.wrapper, styles.container]}>
       {/* logo */}
@@ -20,12 +20,12 @@ const Home = () => {
       </Text>
 
       {/* btn group */}
-      <HomeBtn />
+      <LoginBtn />
 
       {/* rules */}
-      <HomeRules />
+      <LoginRules />
     </View>
   );
 };
 
-export default Home;
+export default Login;

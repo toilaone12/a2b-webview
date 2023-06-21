@@ -1,27 +1,5 @@
 import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-  },
-  container: {
-    backgroundColor: '#000',
-    flex: 1,
-    paddingTop: 50,
-    paddingHorizontal: 20,
-  },
-  logo: {
-    width: 227,
-    height: 150,
-    resizeMode: 'contain',
-    alignSelf: 'center',
-  },
-  text: {
-    fontSize: 22,
-    lineHeight: 32,
-    color: 'white',
-    textAlign: 'center',
-    paddingTop: 50,
-  },
   icon: {
     color: '#fff',
     fontSize: 28,
@@ -53,6 +31,9 @@ const styles = StyleSheet.create({
   },
   textWhite: {
     color: '#fff',
+  },
+  textGray77D: {
+    color: '#777D92',
   },
   border4: {
     borderRadius: 4,

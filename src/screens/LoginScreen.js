@@ -1,30 +1,15 @@
-import React, { useLayoutEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { StyleSheet } from 'react-native';
 
 import Login from '../components/Login';
+import styles from '../styles';
 
 const LoginScreen = () => {
-  const navigation = useNavigation();
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
-
   return (
-    <SafeAreaView style={styles.wrapper}>
+    <SafeAreaView style={[styles.flexFull, styles.relative]}>
       <Login />
     </SafeAreaView>
   );
 };
-// style
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    position: 'relative',
-  },
-});
+
 export default LoginScreen;

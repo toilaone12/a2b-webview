@@ -6,8 +6,6 @@ import * as Location from 'expo-location';
 import { PermissionsAndroid } from 'react-native';
 import styles from '../../styles';
 import { useNavigation } from '@react-navigation/native';
-import appleAuth, { appleAuthAndroid } from '@invertase/react-native-apple-authentication';
-import 'react-native-get-random-values';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import jwtDecode from 'jwt-decode';
 
@@ -68,16 +66,26 @@ const LoginBtn = () => {
           console.log('You cannot use Geolocation');
           return false;
         }
-
-        let location = await Location.getCurrentPositionAsync({});
-        setLatitude(location.coords.latitude);
-        setLongitude(location.coords.longitude);
+        await getLocation();
       } else if (Platform.OS == 'macos' || Platform.OS == 'ios') {
-        console.log("Turn On IOS GPS");
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          setErrorMsg('Permission to access location was denied');
+          return;
+        }else{
+          console.log('Success GPS');
+          await getLocation();
+        }
       }
     } catch (error) {
       return false;
     }
+  }
+
+  const getLocation = async () => {
+    let location = await Location.getCurrentPositionAsync({});
+    setLatitude(location.coords.latitude);
+    setLongitude(location.coords.longitude); 
   }
 
   const handleGoogleLogin = async () => {
@@ -122,6 +130,8 @@ const LoginBtn = () => {
     const responseUrl = await fetch(url);
     const result = await responseUrl.json();
     if (result.res == 'success') {
+      console.log(latitude);
+      console.log(longitude);
       navigation.navigate('Home', {
         token: result.token,
         lat: latitude,

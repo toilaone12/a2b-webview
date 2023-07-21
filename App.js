@@ -1,3 +1,4 @@
+import registerNNPushToken from 'native-notify';
 import AppNavigation from './src/navigation/appNavigation';
 
 export default function App() {

@@ -1,4 +1,4 @@
-import { Text, TouchableHighlight, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Google from 'expo-auth-session/providers/google';
@@ -8,21 +8,11 @@ import styles from '../../styles';
 import { useNavigation } from '@react-navigation/native';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import jwtDecode from 'jwt-decode';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginBtn = () => {
   const navigation = useNavigation();
-  const btnList = [
-    {
-      icon: 'google',
-      text: 'Đăng nhập qua Google',
-      styleView: [styles.bgRed, styles.flexCenter, styles.w250, styles.h48, styles.border4],
-    },
-    {
-      icon: 'apple',
-      text: 'Đăng nhập qua Apple',
-      styleView: [styles.bgGray, styles.flexCenter, styles.w250, styles.h48, styles.border4],
-    },
-  ];
+  const ios = Platform.OS == 'ios';
 
   const androidClientId = '187142393375-7bp1qk9479dibdaepdpj3ibeotm4pr3p.apps.googleusercontent.com';
   const webClientId = '187142393375-c2ai5ek3ap50qat3i710ucc9mirv4j2b.apps.googleusercontent.com';
@@ -49,7 +39,16 @@ const LoginBtn = () => {
       // Xử lý không thành công hoặc hủy bỏ
       console.log('Đăng nhập Google không thành công hoặc đã hủy bỏ.');
     }
+
+    getLocalStorage();
+
+    //removeItem();
+    
   }, [response]) //truyen [] de goi useEffect 1 lan sau khi compoment mounted
+
+  const removeItem = async () => {
+    await AsyncStorage.removeItem('token');
+  }
 
   const requestLocationService = async () => {
     try {
@@ -74,8 +73,8 @@ const LoginBtn = () => {
           return;
         }else{
           console.log('Success GPS');
-          await getLocation();
         }
+        await getLocation(); 
       }
     } catch (error) {
       return false;
@@ -86,6 +85,31 @@ const LoginBtn = () => {
     let location = await Location.getCurrentPositionAsync({});
     setLatitude(location.coords.latitude);
     setLongitude(location.coords.longitude); 
+  }
+
+  const getLocalStorage = async() => {
+    const token = await AsyncStorage.getItem('token');
+    const lat = await AsyncStorage.getItem('lat');
+    const lng = await AsyncStorage.getItem('lng');
+    // console.log(lat);
+    // console.log(lng);
+    if(token !== null && lat !== null && lng !== null){
+      navigation.navigate('Home', {
+        lat: lat,
+        lng: lng,
+        token: token
+      });
+    }
+  }
+
+  const setLocalStorage = async(token,lat,lng) => {
+    try {
+      await AsyncStorage.setItem('token',token);
+      await AsyncStorage.setItem('lat',JSON.stringify(lat));
+      await AsyncStorage.setItem('lng',JSON.stringify(lng));
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const handleGoogleLogin = async () => {
@@ -126,35 +150,48 @@ const LoginBtn = () => {
   }
 
   const login = async (user) => {
-    const url = 'https://api.beta-a2b.work/login?email=' + encodeURIComponent(user.email) + '&fullname=' + encodeURIComponent(user.name) + '&picture=' + encodeURIComponent(user.picture) + '&123';
-    const responseUrl = await fetch(url);
-    const result = await responseUrl.json();
-    if (result.res == 'success') {
-      console.log(latitude);
-      console.log(longitude);
-      navigation.navigate('Home', {
-        token: result.token,
-        lat: latitude,
-        lng: longitude
-      });
+    if(typeof latitude == 'number' && typeof longitude == 'number'){
+      const url = 'https://api.beta-a2b.work/login?email=' + encodeURIComponent(user.email) + '&fullname=' + encodeURIComponent(user.name) + '&picture=' + encodeURIComponent(user.picture) + '&123';
+      const responseUrl = await fetch(url);
+      const result = await responseUrl.json();
+      if (result.res == 'success') {
+        setLocalStorage(result.token,latitude,longitude);
+        navigation.navigate('Home', {
+          lat: latitude,
+          lng: longitude,
+          token: result.token
+        });
+      }
+    }else{
+      alert('Hãy chờ ứng dụng bật định vị cho bạn!')
     }
   }
 
   return (
     <View style={styles.mt60}>
-      {btnList.map((item, index) => (
-        <TouchableHighlight
-          onPress={item.icon === 'google' ? () => handleGoogleLogin() : () => handleAppleLogin()}
-          // onPress={handleButtonClick(item)}
-          style={index > 0 ? [item.styleView, { marginTop: 20 }] : item.styleView}
-          key={index}
-        >
-          <>
-            <Icon name={item.icon} style={[styles.textWhite, styles.fs28, styles.mr10]} />
-            <Text style={[styles.fs16, styles.lh24, styles.textWhite]}>{item.text}</Text>
-          </>
-        </TouchableHighlight>
-      ))}
+      <TouchableOpacity onPress={() => handleGoogleLogin()}>
+        <View style={[styles.bgRed, styles.flexCenter, styles.w250, styles.h48, styles.border4]}>
+          <Icon name={'google'} style={[styles.textWhite, styles.fs28, styles.mr10]} />
+          <Text style={[styles.fs16, styles.lh24, styles.textWhite]}>Đăng nhập qua Google</Text>
+        </View>
+      </TouchableOpacity>
+      {ios ? (
+        <TouchableOpacity onPress={() => handleAppleLogin()}>
+          <View
+            style={[
+              styles.bgGray,
+              styles.flexCenter,
+              styles.w250,
+              styles.h48,
+              styles.border4,
+              styles.mt20,
+            ]}
+          >
+            <Icon name={'apple'} style={[styles.textWhite, styles.fs28, styles.mr10]} />
+            <Text style={[styles.fs16, styles.lh24, styles.textWhite]}>Đăng nhập qua Apple</Text>
+          </View>
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 };

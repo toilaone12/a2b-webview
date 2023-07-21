@@ -3,6 +3,7 @@
     "name": "a2b-app-2",
     "slug": "a2b-app-2",
     "version": "1.0.0",
+    "jsEngine": "hermes",
     "plugins": [
       "expo-apple-authentication"
     ],
@@ -19,13 +20,17 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.bokazem.a2bapp2"
+      "jsEngine": "jsc",
+      "bundleIdentifier": "com.bokazem.a2bapp2",
+      "hermesEnabled": true
+
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "hermesEnabled": true,
       "package": "com.bokazem.a2bapp2"
     },
     "web": {

@@ -2,7 +2,7 @@
   "expo": {
     "name": "a2b-app-2",
     "slug": "a2b-app-2",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "jsEngine": "hermes",
     "plugins": [
       "expo-apple-authentication"
@@ -23,7 +23,6 @@
       "jsEngine": "jsc",
       "bundleIdentifier": "com.bokazem.a2bapp2",
       "hermesEnabled": true
-
     },
     "android": {
       "adaptiveIcon": {
@@ -40,6 +39,9 @@
     "extra": {
       "auth": {
         "useProxy": false
+      },
+      "eas": {
+        "projectId": "6d5876c5-f07b-4f18-8e5e-ba24649e2879"
       }
     }
   }

@@ -21,7 +21,8 @@ const LoginBtn = () => {
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId: androidClientId,
     webClientId: webClientId,
-    expoClientId: webClientId
+    expoClientId: webClientId,
+    iosClientId: '187142393375-7u10eperhdm3fih7dgss8c05gtha5shs.apps.googleusercontent.com'
   });
 
   // Hành động được thực hiện sau khi component được render hoặc state thay đổi

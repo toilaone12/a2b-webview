@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, StatusBar } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import WebView from 'react-native-webview';
 import registerNNPushToken, { deleteIndieNotificationInbox, getIndieNotificationInbox, registerIndieID } from 'native-notify';
@@ -38,12 +38,16 @@ const HomeScreen = ({route}) => {
 
   return (
     <View style={[styles1.container]}>
-      <WebView source={{uri: link, method: "POST", body: `token=${cookieValue}`, headers: {'Cookie': `token=${cookieValue}`,'Content-Type': 'application/x-www-form-urlencoded'}}}
+      <StatusBar
+        animated={true}
+        barStyle='light-content'
+      />
+      <WebView source={{uri: link, method: "POST", body: `token=${cookieValue}&lat=${latValue}&lng=${lngValue}`, headers: {'Cookie': `token=${cookieValue}`,'Content-Type': 'application/x-www-form-urlencoded'}}}
       userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Mobile Chrome/58.0.3029.110 Safari/537.3"
       originWhitelist={["https://*", "http://*", "file://*", "sms://*"]}
       injectedJavaScript={setLocation}
       javaScriptEnabled={true}
-      
+      style={{marginTop: 50, marginBottom: 30, backgroundColor : '#000'}}
       ></WebView>
     </View>
   )
@@ -51,9 +55,19 @@ const HomeScreen = ({route}) => {
 };
 const styles1 = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: '#000'
+  },
+  body: {
       flex: 1,
-      backgroundColor: '#ccc',
-      marginTop: 50
+      paddingTop: 50,
+      paddingHorizontal: 20
+  },
+  header: {
+      fontWeight: "bold",
+      color: "#21a3d0",
+      fontSize: 30,
+      marginBottom: 20
   },
 })
 export default HomeScreen;

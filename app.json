@@ -3,7 +3,9 @@
     "name": "a2b-app-2",
     "slug": "a2b-app-2",
     "version": "1.0.0",
-    "plugins": ["expo-apple-authentication"],
+    "plugins": [
+      "expo-apple-authentication"
+    ],
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
     "userInterfaceStyle": "light",
@@ -16,7 +18,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.bokazem.a2bapp2"
     },
     "android": {
       "adaptiveIcon": {
